@@ -99,25 +99,44 @@ def alexa_run():
     else:
         engine_talk('i could not hear properly')
 
+# For 30 Seconds
 time2 = datetime.datetime.now()
-time2 = time2.strftime('%S') # change to H
+time2 = time2.strftime('%S')
 cnt2 = int(time1)
 while True:
     time1 = datetime.datetime.now()
-    time1 = time1.strftime('%S')  # change to H
+    time1 = time1.strftime('%S')
     cnt1 = int(time1)
     if cnt1 > 30:
         cnt1 -= 30
     else:
         cnt1 += 30
-    # if cnt1 == 0:
-    #     cnt1 = 23
-    # else:
-    #     cnt1 -= 1
+
     if cnt1 == cnt2:
         print(cnt1, cnt2)
         time2 = datetime.datetime.now()
-        time2 = time2.strftime('%S')  # change to H
+        time2 = time2.strftime('%S')
         cnt2 = int(time2)
         time.sleep(1)
         alexa_run()
+
+
+#For 1 hour
+# time2 = datetime.datetime.now()
+# time2 = time2.strftime('%H')
+# cnt2 = int(time1)
+# while True:
+#     time1 = datetime.datetime.now()
+#     time1 = time1.strftime('%H')
+#     cnt1 = int(time1)
+#     if cnt1 == 0:
+#         cnt1 = 23
+#     else:
+#         cnt1 -= 1
+#     if cnt1 == cnt2:
+#         print(cnt1, cnt2)
+#         time2 = datetime.datetime.now()
+#         time2 = time2.strftime('%H')
+#         cnt2 = int(time2)
+#         time.sleep(1)
+#         alexa_run()
