@@ -4,6 +4,28 @@ import datetime
 import sys
 import urllib.request as ur
 import json
+import notifypy
+import pygame.mixer
+import time
+
+def waterReminder():
+    if (value_m <2 0) and (pasttime == 0 or pasttime == (presentime - datetime.timedelta(hours=0, minutes=1))):
+        notification = notifypy.Notify()
+        notification.title = "Smart plant"
+        notification.message = "Please water your plant"
+        notification.icon = './icon.ico'
+        notification.send()
+        water.play()
+        pasttime = datetime.datetime.now()
+
+
+
+
+pasttime = 0
+presentime = 0
+pygame.mixer.init()
+pygame.mixer.music.load('water.mp3')
+water = pygame.mixer.Sound('water.mp3')
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -12,43 +34,35 @@ engine.setProperty('voice', voices[1].id)
 
 
 def temperature():
-    # website = ur.urlopen("https://api.thingspeak.com/channels/1340198/feeds.json?results=2")
-    # response = website.read().decode('utf-8')
-    # my_data = json.loads(response)
-    # # print(my_data['feeds'][0]['field1'])
-    # value = my_data['feeds'][0]['field3']
-    #return value
-    return 10
+    website = ur.urlopen("https://api.thingspeak.com/channels/1340198/feeds.json?results=2")
+    response = website.read().decode('utf-8')
+    my_data = json.loads(response)
+    value = my_data['feeds'][0]['field3']
+    return value
 
 
 def moisture():
-    # website = ur.urlopen("https://api.thingspeak.com/channels/1340198/feeds.json?results=2")
-    # response = website.read().decode('utf-8')
-    # my_data = json.loads(response)
-    # # print(my_data['feeds'][0]['field1'])
-    # value = my_data['feeds'][0]['field1']
-    #return value
-    return 20
+    website = ur.urlopen("https://api.thingspeak.com/channels/1340198/feeds.json?results=2")
+    response = website.read().decode('utf-8')
+    my_data = json.loads(response)
+    value = my_data['feeds'][0]['field1']
+    return value
 
 
 def light():
-    # website = ur.urlopen("https://api.thingspeak.com/channels/1340198/feeds.json?results=2")
-    # response = website.read().decode('utf-8')
-    # my_data = json.loads(response)
-    # # print(my_data['feeds'][0]['field1'])
-    # value = my_data['feeds'][0]['field2']
-    # return value
-    return 30
+    website = ur.urlopen("https://api.thingspeak.com/channels/1340198/feeds.json?results=2")
+    response = website.read().decode('utf-8')
+    my_data = json.loads(response)
+    value = my_data['feeds'][0]['field2']
+    return value
 
 
 def humidity():
-    # website = ur.urlopen("https://api.thingspeak.com/channels/1340198/feeds.json?results=2")
-    # response = website.read().decode('utf-8')
-    # my_data = json.loads(response)
-    # # print(my_data['feeds'][0]['field1'])
-    # value = my_data['feeds'][0]['field4']
-    # return value
-    return 10.9
+    website = ur.urlopen("https://api.thingspeak.com/channels/1340198/feeds.json?results=2")
+    response = website.read().decode('utf-8')
+    my_data = json.loads(response)
+    value = my_data['feeds'][0]['field4']
+    return value
 
 
 value_t = temperature()
@@ -91,8 +105,16 @@ def alexa_run():
     elif 'health' in command:
         if value_m > 40:
             engine_talk('the plant is healthy')
-        else:
+        elif value_t > 40:
+            engine_talk('the plant needs a cooler place')
+        elif value_m < 40:
             engine_talk('the plant needs water')
+        elif value_m < 40  and  value_t > 40:
+            engine_talk('the plant needs water and a cooler place')
+        else:
+            engine_talk('the plant is healthy')
+     elif 'about my plant' in command:
+        engine_talk('This is a curry leaf plant')
     elif 'stop' in command:
         sys.exit()
     else:
@@ -101,3 +123,5 @@ def alexa_run():
 
 while True:
     alexa_run()
+    presentime = datetime.datetime.now()
+    waterreminder(pasttime)
