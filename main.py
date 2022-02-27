@@ -102,7 +102,7 @@ def alexa_run():
 # For 30 Seconds
 time2 = datetime.datetime.now()
 time2 = time2.strftime('%S')
-cnt2 = int(time1)
+cnt2 = int(time2)
 while True:
     time1 = datetime.datetime.now()
     time1 = time1.strftime('%S')
