@@ -4,6 +4,7 @@ import datetime
 import sys
 import urllib.request as ur
 import json
+import time
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -98,6 +99,25 @@ def alexa_run():
     else:
         engine_talk('i could not hear properly')
 
-
+time2 = datetime.datetime.now()
+time2 = time2.strftime('%S') # change to H
+cnt2 = int(time1)
 while True:
-    alexa_run()
+    time1 = datetime.datetime.now()
+    time1 = time1.strftime('%S')  # change to H
+    cnt1 = int(time1)
+    if cnt1 > 30:
+        cnt1 -= 30
+    else:
+        cnt1 += 30
+    # if cnt1 == 0:
+    #     cnt1 = 23
+    # else:
+    #     cnt1 -= 1
+    if cnt1 == cnt2:
+        print(cnt1, cnt2)
+        time2 = datetime.datetime.now()
+        time2 = time2.strftime('%S')  # change to H
+        cnt2 = int(time2)
+        time.sleep(1)
+        alexa_run()
