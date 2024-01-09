@@ -1,3 +1,3 @@
 # SmartPlant <br/>
 <br/>
-I'm a Potato <br/>
+IOT smart Plant with virtual assistant <br/>
